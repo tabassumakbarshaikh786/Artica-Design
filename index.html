@@ -30,7 +30,7 @@
     overflow-x: hidden;
   }
 
-  /* ─── PAGE SYSTEM (no transition animation) ─── */
+  /* ─── PAGE SYSTEM ─── */
   .page { display: none; min-height: 100vh; }
   .page.active { display: block; }
 
@@ -99,12 +99,30 @@
   }
 
   /* ─── HAMBURGER ─── */
-
-
-  .hamburger span { width: 24px; height: 2px; background: var(--cream); transition: 0.3s; display: block; }
-  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .hamburger.open span:nth-child(2) { opacity: 0; }
-  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 10px;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .hamburger span {
+    width: 26px; height: 2px;
+    background: var(--cream);
+    transition: all 0.35s cubic-bezier(.22,.68,0,1.2);
+    display: block;
+    border-radius: 2px;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
   /* ─── FLOATING BUTTONS ─── */
   .float-btns {
@@ -852,34 +870,122 @@
   }
   .lightbox-close:hover { transform: rotate(90deg); color: var(--gold); }
 
-  /* ─── MOBILE NAV OVERLAY ─── */
+  /* ══════════════════════════════════════════
+     ─── MOBILE STYLES (hamburger fix) ───
+  ══════════════════════════════════════════ */
   @media (max-width: 900px) {
     nav { padding: 0 20px; height: 64px; }
     .logo-name { font-size: 1.3rem; }
     .logo-img { height: 38px; }
-    .hamburger { display: flex; width: 44px; height: 44px; align-items: center; justify-content: center; padding: 10px; }
-    .nav-links { display: none; }
+
+    /* Show hamburger */
+    .hamburger {
+      display: flex;
+    }
+
+    /* Hide desktop nav */
+    .nav-links {
+      display: none;
+    }
+
+    /* ─── MOBILE MENU (THE FIX) ─── */
     .nav-links.open {
-      display: flex; flex-direction: column;
-      position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
-      background: rgba(13,27,42,0.98);
-      padding: 24px 24px; gap: 4px;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 64px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(13, 27, 42, 0.99);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 200px 0 400px 0;
+      gap: 0;
       overflow-y: auto;
-      z-index: 999;
+      z-index: 998;
+      /* Slide down animation */
+      animation: mobileMenuIn 0.3s cubic-bezier(.22,.68,0,1.2) both;
     }
-    .nav-links.open li { border-bottom: 1px solid rgba(196,162,79,0.1); }
-    .nav-links.open li:last-child { border-bottom: none; margin-top: 12px; }
+
+    @keyframes mobileMenuIn {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Each list item */
+    .nav-links.open li {
+      border-bottom: 1px solid rgba(196, 162, 79, 0.12);
+      width: 100%;
+    }
+
+    .nav-links.open li:last-child {
+      border-bottom: none;
+      padding: 20px 24px 0;
+    }
+
+    /* Nav link items — big touch targets */
     .nav-links.open li a {
-      font-size: 1rem; padding: 14px 0; display: block;
-      color: rgba(245,240,232,0.85);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 28px;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: rgba(245, 240, 232, 0.88);
+      text-transform: uppercase;
+      transition: background 0.2s, color 0.2s, padding-left 0.2s;
+      width: 100%;
     }
-    .nav-links.open li a::after { display: none; }
+
+    .nav-links.open li a::after {
+      display: none !important;
+    }
+
+    .nav-links.open li a::before {
+      content: '›';
+      font-size: 1.4rem;
+      color: var(--gold);
+      opacity: 0;
+      transition: opacity 0.2s;
+      order: 2;
+    }
+
+    .nav-links.open li a:hover,
+    .nav-links.open li a.active {
+      color: var(--gold);
+      background: rgba(196, 162, 79, 0.07);
+      padding-left: 36px;
+    }
+
+    .nav-links.open li a:hover::before,
+    .nav-links.open li a.active::before {
+      opacity: 1;
+    }
+
+    /* CTA button in mobile menu */
     .nav-links.open .nav-cta {
-      display: block; text-align: center;
-      padding: 14px 22px !important;
-      border-radius: 2px; margin-top: 8px;
+      display: block !important;
+      width: calc(100% - 48px);
+      margin: 0 24px;
+      text-align: center;
+      padding: 16px 24px !important;
+      font-size: 0.9rem !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.1em !important;
+      border-radius: 3px !important;
+      background: var(--gold) !important;
+      color: var(--navy) !important;
+      box-shadow: 0 8px 28px rgba(196, 162, 79, 0.35) !important;
     }
-    .hamburger { display: flex; }
+
+    .nav-links.open .nav-cta::before { display: none !important; }
+
+    .nav-links.open li:last-child {
+      border-bottom: none;
+      padding: 16px 0 0 0;
+    }
 
     /* Hero */
     .hero-content { padding: 0 24px; max-width: 100%; }
@@ -931,6 +1037,7 @@
   }
 
   @media (max-width: 500px) {
+    nav { padding: 0 16px; }
     .logo-name { font-size: 1.1rem; }
     .logo-img { height: 34px; }
     .gallery-masonry { columns: 1; }
@@ -944,6 +1051,12 @@
     .testi-card { padding: 24px 20px; }
     .blog-hero-banner { padding: 40px 20px; }
     .footer-bottom { flex-direction: column; gap: 6px; text-align: center; }
+
+    /* Even bigger tap targets on small phones */
+    .nav-links.open li a {
+      padding: 20px 24px;
+      font-size: 1.05rem;
+    }
   }
 </style>
 </head>
@@ -966,9 +1079,9 @@
     <li><a onclick="showPage('faq')" id="nav-faq">FAQ</a></li>
     <li><a onclick="showPage('contact')" class="nav-cta" id="nav-contact">Contact Us</a></li>
   </ul>
-  <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+  <button class="hamburger" onclick="toggleMenu()" id="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
-  </div>
+  </button>
 </nav>
 
 <!-- ─── FLOATING BUTTONS ─── -->
@@ -1285,9 +1398,7 @@
     </div>
 
     <div class="blog-layout">
-      <!-- Main Content -->
       <div>
-        <!-- Featured Post -->
         <div class="blog-featured">
           <div class="img-wrap">
             <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1000&q=80" alt="Featured Post">
@@ -1308,7 +1419,6 @@
           </div>
         </div>
 
-        <!-- Posts Grid -->
         <div class="blog-posts-grid">
           <div class="blog-card">
             <div class="img-wrap"><img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&q=80" alt="Small Space"></div>
@@ -1320,7 +1430,6 @@
               <button class="blog-read-more">Read More →</button>
             </div>
           </div>
-
           <div class="blog-card">
             <div class="img-wrap"><img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80" alt="Modular Kitchen"></div>
             <div class="blog-card-body">
@@ -1331,7 +1440,6 @@
               <button class="blog-read-more">Read More →</button>
             </div>
           </div>
-
           <div class="blog-card">
             <div class="img-wrap"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80" alt="Lighting Design"></div>
             <div class="blog-card-body">
@@ -1342,7 +1450,6 @@
               <button class="blog-read-more">Read More →</button>
             </div>
           </div>
-
           <div class="blog-card">
             <div class="img-wrap"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" alt="Office Design"></div>
             <div class="blog-card-body">
@@ -1353,7 +1460,6 @@
               <button class="blog-read-more">Read More →</button>
             </div>
           </div>
-
           <div class="blog-card">
             <div class="img-wrap"><img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80" alt="Bedroom Design"></div>
             <div class="blog-card-body">
@@ -1364,7 +1470,6 @@
               <button class="blog-read-more">Read More →</button>
             </div>
           </div>
-
           <div class="blog-card">
             <div class="img-wrap"><img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=600&q=80" alt="Renovation Tips"></div>
             <div class="blog-card-body">
@@ -1378,7 +1483,6 @@
         </div>
       </div>
 
-      <!-- Sidebar -->
       <div class="blog-sidebar">
         <div class="sidebar-widget">
           <h4>Categories</h4>
@@ -1390,7 +1494,6 @@
           <div class="sidebar-category">Renovation <span>7</span></div>
           <div class="sidebar-category">Lighting <span>3</span></div>
         </div>
-
         <div class="sidebar-widget">
           <h4>Recent Posts</h4>
           <div class="sidebar-post">
@@ -1410,7 +1513,6 @@
             <div class="sidebar-post-info"><h5>The Art of Layered Lighting</h5><span>Jan 22, 2025</span></div>
           </div>
         </div>
-
         <div class="sidebar-widget">
           <h4>Popular Tags</h4>
           <div class="sidebar-tags">
@@ -1426,7 +1528,6 @@
             <span class="sidebar-tag">Small Space</span>
           </div>
         </div>
-
         <div class="sidebar-widget" style="background:var(--navy);border-color:var(--border);">
           <h4 style="color:var(--cream);">Free Consultation</h4>
           <p style="font-size:0.83rem;color:rgba(245,240,232,0.6);line-height:1.7;margin-bottom:16px;">Ready to transform your space? Book a free consultation with our design experts.</p>
@@ -1680,29 +1781,41 @@
     if (el) el.innerHTML = footerTpl;
   });
 
-  // ─── Page navigation (no animation) ───
+  // ─── Page navigation ───
   function showPage(page) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-
     const target = document.getElementById('page-' + page);
     if (target) target.classList.add('active');
-
     const navEl = document.getElementById('nav-' + page);
     if (navEl) navEl.classList.add('active');
-
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
     // Close mobile menu
     document.getElementById('navLinks').classList.remove('open');
     document.getElementById('hamburger').classList.remove('open');
+    document.body.style.overflow = '';
   }
 
   // ─── Hamburger ───
   function toggleMenu() {
-    document.getElementById('navLinks').classList.toggle('open');
-    document.getElementById('hamburger').classList.toggle('open');
+    const nav = document.getElementById('navLinks');
+    const btn = document.getElementById('hamburger');
+    const isOpen = nav.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+    // Prevent body scroll when menu is open
+    document.body.style.overflow = isOpen ? 'hidden' : '';
   }
+
+  // Close menu if clicking outside
+  document.addEventListener('click', function(e) {
+    const nav = document.getElementById('navLinks');
+    const btn = document.getElementById('hamburger');
+    if (nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)) {
+      nav.classList.remove('open');
+      btn.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  });
 
   // ─── Catalogue filter ───
   function filterCat(btn, cat) {
@@ -1741,7 +1854,6 @@
     const email   = document.getElementById('cf-email').value.trim();
     const service = document.getElementById('cf-service').value;
     const message = document.getElementById('cf-message').value.trim();
-
     if (!fname || !phone) {
       alert('Please fill in at least your name and phone number.');
       return;
