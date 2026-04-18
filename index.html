@@ -99,7 +99,8 @@
   }
 
   /* ─── HAMBURGER ─── */
-  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 12px; }
+
+
   .hamburger span { width: 24px; height: 2px; background: var(--cream); transition: 0.3s; display: block; }
   .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .hamburger.open span:nth-child(2) { opacity: 0; }
@@ -856,6 +857,7 @@
     nav { padding: 0 20px; height: 64px; }
     .logo-name { font-size: 1.3rem; }
     .logo-img { height: 38px; }
+    .hamburger { display: flex; width: 44px; height: 44px; align-items: center; justify-content: center; padding: 10px; }
     .nav-links { display: none; }
     .nav-links.open {
       display: flex; flex-direction: column;
