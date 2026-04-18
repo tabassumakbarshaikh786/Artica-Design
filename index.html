@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artica Designs – Interior Design Studio, Mumbai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --navy-light: #162235;
+    --gold: #c4a24f;
+    --gold-light: #d4b56a;
+    --cream: #f5f0e8;
+    --cream-dark: #ede6d8;
+    --white: #ffffff;
+    --text-dark: #0d1b2a;
+    --text-mid: #3a4a5c;
+    --text-muted: #6b7a8d;
+    --border: rgba(196,162,79,0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* ─── PAGE SYSTEM ─── */
+  .page { display: none; min-height: 100vh; }
+  .page.active { display: block; animation: fadeIn 0.5s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ─── NAVBAR ─── */
+  nav {
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+    background: rgba(13,27,42,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 74px;
+    transition: all 0.3s;
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 700;
+    color: var(--cream); letter-spacing: 0.04em; cursor: pointer;
+  }
+  .logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links li a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem; font-weight: 500;
+    color: rgba(245,240,232,0.75);
+    text-decoration: none; letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 6px 0;
+    border-bottom: 1px solid transparent;
+    transition: all 0.25s;
+  }
+  .nav-links li a:hover, .nav-links li a.active {
+    color: var(--gold); border-bottom-color: var(--gold);
+  }
+  .nav-cta {
+    background: var(--gold); color: var(--navy) !important;
+    padding: 9px 22px !important; border-radius: 2px;
+    border-bottom: none !important; font-weight: 600 !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--gold-light) !important; }
+
+  /* ─── HAMBURGER ─── */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 2px; background: var(--cream); transition: 0.3s; }
+
+  /* ─── FLOATING BUTTONS ─── */
+  .float-btns {
+    position: fixed; bottom: 28px; left: 24px;
+    display: flex; flex-direction: column; gap: 12px; z-index: 999;
+  }
+  .float-btn {
+    width: 52px; height: 52px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    position: relative;
+  }
+  .float-btn:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(0,0,0,0.35); }
+  .float-btn.wa { background: #25d366; }
+  .float-btn.call { background: var(--gold); }
+  .float-btn svg { width: 24px; height: 24px; fill: white; }
+  .float-tooltip {
+    position: absolute; left: 64px; white-space: nowrap;
+    background: var(--navy); color: var(--cream);
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.04em;
+    padding: 5px 10px; border-radius: 3px;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  }
+  .float-btn:hover .float-tooltip { opacity: 1; }
+
+  /* ─── HERO ─── */
+  .hero {
+    height: 100vh; position: relative;
+    overflow: hidden; display: flex; align-items: center;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1800&q=85');
+    background-size: cover; background-position: center;
+    transform: scale(1.05);
+    animation: slowZoom 12s ease-out forwards;
+  }
+  @keyframes slowZoom { to { transform: scale(1); } }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(13,27,42,0.88) 0%, rgba(13,27,42,0.55) 60%, rgba(13,27,42,0.3) 100%);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 80px; max-width: 760px;
+    animation: slideUp 1s ease 0.3s both;
+  }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-tag {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
+  }
+  .hero-tag::before { content: ''; width: 40px; height: 1px; background: var(--gold); }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 700; line-height: 1.1;
+    color: var(--white); margin-bottom: 24px;
+  }
+  .hero h1 em { color: var(--gold); font-style: italic; font-weight: 300; }
+  .hero p {
+    font-size: 1.05rem; font-weight: 300; line-height: 1.8;
+    color: rgba(245,240,232,0.82); max-width: 540px; margin-bottom: 42px;
+  }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--gold); color: var(--navy);
+    padding: 14px 36px; font-size: 0.85rem; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    border: none; cursor: pointer; border-radius: 2px;
+    transition: all 0.25s;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--cream);
+    padding: 14px 36px; font-size: 0.85rem; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    border: 1px solid rgba(245,240,232,0.4); cursor: pointer; border-radius: 2px;
+    transition: all 0.25s;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+  .hero-scroll {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: rgba(245,240,232,0.5); font-size: 0.7rem; letter-spacing: 0.15em;
+    text-transform: uppercase; z-index: 2;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+  .hero-scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, rgba(245,240,232,0.5), transparent); }
+
+  /* ─── SECTION COMMON ─── */
+  section { padding: 100px 80px; }
+  .section-tag {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+  }
+  .section-tag::before { content: ''; width: 30px; height: 1px; background: var(--gold); }
+  h2.section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700; line-height: 1.2;
+    color: var(--navy); margin-bottom: 20px;
+  }
+  h2.section-title.light { color: var(--cream); }
+  .section-desc {
+    font-size: 1rem; font-weight: 300; line-height: 1.8;
+    color: var(--text-mid); max-width: 560px; margin-bottom: 60px;
+  }
+  .section-desc.light { color: rgba(245,240,232,0.7); }
+
+  /* ─── STATS BAR ─── */
+  .stats-bar {
+    background: var(--navy); padding: 50px 80px;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 20px; border-top: 1px solid var(--border);
+  }
+  .stat { text-align: center; padding: 10px; }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem; font-weight: 700; color: var(--gold);
+    display: block;
+  }
+  .stat-label {
+    font-size: 0.78rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: rgba(245,240,232,0.6);
+  }
+
+  /* ─── FEATURED SERVICES PREVIEW (HOME) ─── */
+  .services-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .service-card {
+    background: var(--white); border: 1px solid rgba(196,162,79,0.15);
+    padding: 40px 32px; border-radius: 2px;
+    transition: all 0.3s; cursor: pointer; position: relative; overflow: hidden;
+  }
+  .service-card::before {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 3px; background: var(--gold); transition: width 0.35s;
+  }
+  .service-card:hover::before { width: 100%; }
+  .service-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(13,27,42,0.12); }
+  .service-icon {
+    width: 52px; height: 52px; background: rgba(196,162,79,0.12);
+    border-radius: 2px; display: flex; align-items: center; justify-content: center;
+    margin-bottom: 24px;
+  }
+  .service-icon svg { width: 26px; height: 26px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+  .service-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.45rem; font-weight: 700;
+    color: var(--navy); margin-bottom: 12px;
+  }
+  .service-card p { font-size: 0.88rem; line-height: 1.75; color: var(--text-muted); }
+
+  /* ─── DARK SECTION ─── */
+  .dark-section { background: var(--navy); }
+
+  /* ─── PROJECTS GRID ─── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    grid-template-rows: 340px 340px;
+    gap: 16px;
+  }
+  .proj-card {
+    border-radius: 2px; overflow: hidden; position: relative; cursor: pointer;
+  }
+  .proj-card.tall { grid-row: 1 / 3; }
+  .proj-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+  .proj-card:hover img { transform: scale(1.06); }
+  .proj-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(13,27,42,0.85) 0%, transparent 60%);
+    padding: 28px; display: flex; flex-direction: column; justify-content: flex-end;
+    opacity: 0.7; transition: opacity 0.3s;
+  }
+  .proj-card:hover .proj-overlay { opacity: 1; }
+  .proj-overlay h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-weight: 700; color: var(--white);
+  }
+  .proj-overlay span { font-size: 0.75rem; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* ─── SERVICES PAGE ─── */
+  .services-full { padding-top: 140px; }
+  .services-full-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .service-full-card {
+    background: var(--white); border: 1px solid rgba(196,162,79,0.15);
+    border-radius: 2px; overflow: hidden; transition: all 0.3s;
+  }
+  .service-full-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(13,27,42,0.1); }
+  .service-full-card img { width: 100%; height: 220px; object-fit: cover; }
+  .service-full-body { padding: 28px; }
+  .service-full-body h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; color: var(--navy); margin-bottom: 10px;
+  }
+  .service-full-body p { font-size: 0.88rem; line-height: 1.75; color: var(--text-muted); margin-bottom: 18px; }
+  .service-tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .service-tag {
+    font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--gold); border: 1px solid var(--border);
+    padding: 4px 10px; border-radius: 1px;
+  }
+  .process-section { background: var(--navy); padding: 100px 80px; }
+  .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-top: 60px; }
+  .process-step { padding: 32px 24px; border-left: 1px solid var(--border); }
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem; color: var(--gold); font-weight: 300; margin-bottom: 16px;
+  }
+  .process-step h4 { font-size: 1rem; color: var(--cream); font-weight: 600; margin-bottom: 10px; }
+  .process-step p { font-size: 0.84rem; color: rgba(245,240,232,0.6); line-height: 1.7; }
+
+  /* ─── ABOUT PAGE ─── */
+  .about-hero { padding-top: 140px; }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .about-img-wrap { position: relative; }
+  .about-img-wrap img { width: 100%; height: 600px; object-fit: cover; border-radius: 2px; }
+  .about-img-badge {
+    position: absolute; bottom: -30px; right: -30px;
+    background: var(--gold); color: var(--navy);
+    padding: 28px 32px; border-radius: 2px;
+  }
+  .about-img-badge span { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 700; display: block; }
+  .about-img-badge small { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; }
+  .about-content h2 { margin-bottom: 20px; }
+  .about-content p { font-size: 0.92rem; line-height: 1.85; color: var(--text-mid); margin-bottom: 20px; }
+  .about-values { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
+  .value-item { padding: 20px; border: 1px solid rgba(196,162,79,0.2); border-radius: 2px; }
+  .value-item h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--navy); margin-bottom: 8px; }
+  .value-item p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+  .team-section { padding: 100px 80px; background: var(--cream-dark); }
+  .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 60px; }
+  .team-card { background: var(--white); border-radius: 2px; overflow: hidden; }
+  .team-card img { width: 100%; height: 280px; object-fit: cover; object-position: top; }
+  .team-body { padding: 24px; }
+  .team-body h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; color: var(--navy); }
+  .team-body span { font-size: 0.78rem; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; }
+  .team-body p { font-size: 0.83rem; color: var(--text-muted); margin-top: 10px; line-height: 1.65; }
+
+  /* ─── CATALOGUE ─── */
+  .catalogue-pg { padding-top: 140px; }
+  .cat-filters { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 50px; }
+  .cat-filter {
+    padding: 9px 22px; border: 1px solid rgba(196,162,79,0.3);
+    border-radius: 2px; font-size: 0.8rem; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer; background: transparent;
+    color: var(--text-muted); transition: all 0.2s;
+  }
+  .cat-filter.active, .cat-filter:hover { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+  .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .cat-item { background: var(--white); border-radius: 2px; overflow: hidden; border: 1px solid rgba(196,162,79,0.12); }
+  .cat-item img { width: 100%; height: 240px; object-fit: cover; transition: transform 0.4s; }
+  .cat-item:hover img { transform: scale(1.05); }
+  .cat-body { padding: 20px 22px; }
+  .cat-body h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--navy); margin-bottom: 6px; }
+  .cat-body span { font-size: 0.78rem; color: var(--gold); text-transform: uppercase; letter-spacing: 0.08em; }
+  .cat-body p { font-size: 0.83rem; color: var(--text-muted); margin-top: 8px; line-height: 1.6; }
+
+  /* ─── GALLERY ─── */
+  .gallery-pg { padding-top: 140px; }
+  .gallery-masonry {
+    columns: 3; gap: 16px;
+    column-fill: balance;
+  }
+  .gallery-item {
+    break-inside: avoid; margin-bottom: 16px;
+    border-radius: 2px; overflow: hidden; cursor: pointer; position: relative;
+  }
+  .gallery-item img { width: 100%; display: block; transition: transform 0.4s; }
+  .gallery-item:hover img { transform: scale(1.04); }
+  .gallery-item-overlay {
+    position: absolute; inset: 0;
+    background: rgba(13,27,42,0.5);
+    opacity: 0; transition: opacity 0.3s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .gallery-item:hover .gallery-item-overlay { opacity: 1; }
+  .gallery-item-overlay svg { width: 32px; height: 32px; stroke: white; fill: none; stroke-width: 1.5; }
+
+  /* ─── CONTACT ─── */
+  .contact-pg { padding-top: 140px; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; }
+  .contact-info h2 { margin-bottom: 16px; }
+  .contact-info p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 40px; }
+  .info-items { display: flex; flex-direction: column; gap: 28px; }
+  .info-item { display: flex; gap: 16px; align-items: flex-start; }
+  .info-icon {
+    width: 44px; height: 44px; background: rgba(196,162,79,0.12);
+    border-radius: 2px; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .info-icon svg { width: 20px; height: 20px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+  .info-text strong { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 4px; }
+  .info-text span { font-size: 0.88rem; color: var(--text-mid); line-height: 1.6; }
+  .hours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; margin-top: 6px; }
+  .hours-grid span { font-size: 0.82rem; color: var(--text-muted); }
+  .contact-form-wrap {
+    background: var(--white); padding: 50px 44px;
+    border: 1px solid rgba(196,162,79,0.18); border-radius: 2px;
+  }
+  .contact-form-wrap h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; color: var(--navy); margin-bottom: 30px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .form-group { margin-bottom: 20px; }
+  .form-group label {
+    display: block; font-size: 0.75rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--text-mid); margin-bottom: 8px;
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 12px 16px;
+    border: 1px solid rgba(196,162,79,0.25);
+    border-radius: 2px; background: var(--cream);
+    font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+    color: var(--text-dark); outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--gold);
+    background: white;
+  }
+  .form-group textarea { height: 110px; resize: none; }
+  .form-submit {
+    width: 100%; padding: 15px;
+    background: var(--navy); color: var(--gold);
+    border: none; border-radius: 2px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
+    font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    transition: all 0.25s;
+  }
+  .form-submit:hover { background: var(--gold); color: var(--navy); }
+  .map-section { padding: 0 80px 100px; }
+  .map-wrap { border-radius: 2px; overflow: hidden; height: 420px; border: 1px solid rgba(196,162,79,0.2); }
+  .map-wrap iframe { width: 100%; height: 100%; border: none; }
+
+  /* ─── TESTIMONIALS ─── */
+  .testimonials-pg { padding-top: 140px; }
+  .testimonials-bg { background: var(--navy); padding: 100px 80px; }
+  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 60px; }
+  .testi-card {
+    background: rgba(245,240,232,0.05); border: 1px solid var(--border);
+    padding: 36px 30px; border-radius: 2px; position: relative;
+  }
+  .testi-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem; color: var(--gold); line-height: 0.5;
+    margin-bottom: 20px; opacity: 0.4;
+  }
+  .testi-card p {
+    font-size: 0.9rem; line-height: 1.8;
+    color: rgba(245,240,232,0.75); margin-bottom: 24px;
+    font-style: italic;
+  }
+  .testi-author { display: flex; align-items: center; gap: 14px; }
+  .testi-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--gold); display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif; font-size: 1.2rem;
+    font-weight: 700; color: var(--navy);
+  }
+  .testi-name { font-size: 0.85rem; font-weight: 600; color: var(--cream); }
+  .testi-loc { font-size: 0.75rem; color: var(--gold); }
+  .stars { color: var(--gold); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 8px; }
+
+  /* ─── FAQ ─── */
+  .faq-pg { padding-top: 140px; }
+  .faq-list { max-width: 800px; margin: 60px auto 0; }
+  .faq-item { border-bottom: 1px solid rgba(196,162,79,0.2); }
+  .faq-q {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 0; cursor: pointer;
+    font-size: 0.95rem; font-weight: 500; color: var(--text-dark);
+  }
+  .faq-q span { color: var(--gold); font-size: 1.2rem; font-weight: 300; transition: transform 0.3s; }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s; }
+  .faq-a p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.8; padding-bottom: 20px; }
+  .faq-item.open .faq-q span { transform: rotate(45deg); }
+  .faq-item.open .faq-a { max-height: 300px; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--navy); padding: 70px 80px 30px;
+    border-top: 1px solid var(--border);
+  }
+  .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 60px; }
+  .footer-brand .logo { font-size: 1.4rem; margin-bottom: 16px; display: inline-block; }
+  .footer-brand p { font-size: 0.84rem; line-height: 1.8; color: rgba(245,240,232,0.55); margin-bottom: 24px; }
+  .social-links { display: flex; gap: 12px; }
+  .social-link {
+    width: 36px; height: 36px; border: 1px solid var(--border);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; cursor: pointer;
+  }
+  .social-link:hover { border-color: var(--gold); background: rgba(196,162,79,0.1); }
+  .social-link svg { width: 14px; height: 14px; stroke: rgba(245,240,232,0.6); fill: none; stroke-width: 1.5; }
+  .social-link:hover svg { stroke: var(--gold); }
+  .footer-col h5 {
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 20px; font-weight: 600;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul li a {
+    font-size: 0.84rem; color: rgba(245,240,232,0.55);
+    text-decoration: none; cursor: pointer; transition: color 0.2s;
+  }
+  .footer-col ul li a:hover { color: var(--gold); }
+  .footer-contact-item { display: flex; gap: 10px; margin-bottom: 14px; align-items: flex-start; }
+  .footer-contact-item svg { width: 14px; height: 14px; stroke: var(--gold); fill: none; stroke-width: 1.5; flex-shrink: 0; margin-top: 3px; }
+  .footer-contact-item span { font-size: 0.83rem; color: rgba(245,240,232,0.55); line-height: 1.6; }
+  .footer-bottom {
+    border-top: 1px solid rgba(196,162,79,0.12);
+    padding-top: 24px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-bottom p { font-size: 0.78rem; color: rgba(245,240,232,0.35); }
+  .footer-bottom a { color: var(--gold); text-decoration: none; }
+
+  /* ─── LIGHTBOX ─── */
+  .lightbox {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+    z-index: 9999; display: none; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 90vw; max-height: 90vh; border-radius: 2px; }
+  .lightbox-close {
+    position: absolute; top: 20px; right: 28px;
+    font-size: 2rem; color: white; cursor: pointer;
+    background: none; border: none; line-height: 1;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    section { padding: 70px 30px; }
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 74px; left: 0; right: 0; background: var(--navy); padding: 20px 24px; gap: 16px; }
+    .hamburger { display: flex; }
+    .hero-content { padding: 0 30px; }
+    .services-grid, .services-full-grid, .cat-grid { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+    .proj-card.tall { grid-row: auto; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; }
+    .about-img-badge { bottom: 0; right: 0; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .gallery-masonry { columns: 2; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .team-grid { grid-template-columns: 1fr 1fr; }
+    .map-section { padding: 0 30px 70px; }
+    .process-section { padding: 70px 30px; }
+    .team-section { padding: 70px 30px; }
+    .footer-grid { gap: 30px; }
+    footer { padding: 60px 30px 30px; }
+  }
+  @media (max-width: 500px) {
+    .gallery-masonry { columns: 1; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .team-grid { grid-template-columns: 1fr; }
+    .about-values { grid-template-columns: 1fr; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); padding: 40px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav id="navbar">
+  <div class="logo" onclick="showPage('home')">Artica Designs<span>.</span></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a onclick="showPage('home')" class="active" id="nav-home">Home</a></li>
+    <li><a onclick="showPage('services')" id="nav-services">Services</a></li>
+    <li><a onclick="showPage('about')" id="nav-about">About</a></li>
+    <li><a onclick="showPage('catalogue')" id="nav-catalogue">Catalogue</a></li>
+    <li><a onclick="showPage('gallery')" id="nav-gallery">Gallery</a></li>
+    <li><a onclick="showPage('testimonials')" id="nav-testimonials">Testimonials</a></li>
+    <li><a onclick="showPage('faq')" id="nav-faq">FAQ</a></li>
+    <li><a onclick="showPage('contact')" class="nav-cta" id="nav-contact">Contact Us</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ─── FLOATING BUTTONS ─── -->
+<div class="float-btns">
+  <a class="float-btn wa" href="https://wa.me/918806428881" target="_blank">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <div class="float-tooltip">WhatsApp Us</div>
+  </a>
+  <a class="float-btn call" href="tel:+918806428881">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+    <div class="float-tooltip">Call Us</div>
+  </a>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE 1: HOME
+════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-tag">Mumbai's Premier Interior Studio</div>
+      <h1>Where Spaces Tell <em>Your</em> Story</h1>
+      <p>Artica Designs crafts bespoke interiors that blend timeless elegance with modern functionality — from luxurious residences to inspiring commercial spaces across Mumbai.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('contact')">Start Your Project</button>
+        <button class="btn-outline" onclick="showPage('gallery')">View Our Work</button>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      Scroll
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat"><span class="stat-num">250+</span><span class="stat-label">Projects Completed</span></div>
+    <div class="stat"><span class="stat-num">12+</span><span class="stat-label">Years of Excellence</span></div>
+    <div class="stat"><span class="stat-num">98%</span><span class="stat-label">Client Satisfaction</span></div>
+    <div class="stat"><span class="stat-num">40+</span><span class="stat-label">Design Experts</span></div>
+  </div>
+
+  <!-- Featured Services -->
+  <section>
+    <div class="section-tag">What We Do</div>
+    <h2 class="section-title">Crafted With Purpose,<br>Designed With Passion</h2>
+    <p class="section-desc">From concept to completion, our expert team delivers extraordinary design solutions tailored to your lifestyle and vision.</p>
+    <div class="services-grid">
+      <div class="service-card" onclick="showPage('services')">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <h3>Residential Design</h3>
+        <p>Transform your home into a personal sanctuary. We design every room to reflect your personality, comfort, and lifestyle.</p>
+      </div>
+      <div class="service-card" onclick="showPage('services')">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3>Commercial Spaces</h3>
+        <p>Offices, retail, hospitality — we create professional environments that enhance productivity and leave lasting impressions.</p>
+      </div>
+      <div class="service-card" onclick="showPage('services')">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3>Turnkey Solutions</h3>
+        <p>Complete end-to-end project management from design conception to final furnishing — stress-free, on time, on budget.</p>
+      </div>
+      <div class="service-card" onclick="showPage('services')">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <h3>3D Visualization</h3>
+        <p>See your dream space before a single nail is hammered. Photorealistic 3D renders give you absolute clarity and confidence.</p>
+      </div>
+      <div class="service-card" onclick="showPage('services')">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+        </div>
+        <h3>Modular Furniture</h3>
+        <p>Custom-crafted modular kitchens, wardrobes, and storage solutions that maximise space without compromising aesthetics.</p>
+      </div>
+      <div class="service-card" onclick="showPage('services')">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <h3>Consultation</h3>
+        <p>Not sure where to start? Our expert consultants guide you through styles, palettes, and budgets to define your perfect vision.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Projects -->
+  <section style="background: var(--navy); padding: 100px 80px;">
+    <div class="section-tag">Our Work</div>
+    <h2 class="section-title light">Award-Winning Projects<br>Across Mumbai</h2>
+    <p class="section-desc light">Every project is a new canvas. Here are some of our most celebrated transformations.</p>
+    <div class="projects-grid">
+      <div class="proj-card tall">
+        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80" alt="Luxury living room">
+        <div class="proj-overlay">
+          <span>Residential</span>
+          <h4>The Bandra Retreat</h4>
+        </div>
+      </div>
+      <div class="proj-card">
+        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80" alt="Modern kitchen">
+        <div class="proj-overlay">
+          <span>Kitchen</span>
+          <h4>Gourmet Kitchen, Powai</h4>
+        </div>
+      </div>
+      <div class="proj-card">
+        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80" alt="Bedroom design">
+        <div class="proj-overlay">
+          <span>Bedroom</span>
+          <h4>Tranquil Suite, Juhu</h4>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:50px;">
+      <button class="btn-outline" onclick="showPage('gallery')">View Full Gallery</button>
+    </div>
+  </section>
+
+  <!-- Why Artica -->
+  <section>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center;">
+      <div>
+        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=80" alt="Design studio" style="width:100%;height:500px;object-fit:cover;border-radius:2px;">
+      </div>
+      <div>
+        <div class="section-tag">Why Artica Designs</div>
+        <h2 class="section-title">Precision, Passion &<br>Personal Touch</h2>
+        <p style="font-size:0.92rem;line-height:1.85;color:var(--text-mid);margin-bottom:30px;">Based in the heart of Mumbai's Ghatkopar West, Artica Designs has been shaping spaces that inspire since 2012. Our philosophy is simple: every client deserves a space that truly feels like their own.</p>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div style="display:flex;gap:14px;align-items:flex-start;padding:16px;border:1px solid rgba(196,162,79,0.18);border-radius:2px;">
+            <div style="color:var(--gold);font-size:1.2rem;font-weight:700;min-width:24px;">✦</div>
+            <div><strong style="font-size:0.88rem;color:var(--navy);">Client-First Approach</strong><p style="font-size:0.83rem;color:var(--text-muted);margin-top:4px;">We listen first, design second. Your vision drives every decision.</p></div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;padding:16px;border:1px solid rgba(196,162,79,0.18);border-radius:2px;">
+            <div style="color:var(--gold);font-size:1.2rem;font-weight:700;min-width:24px;">✦</div>
+            <div><strong style="font-size:0.88rem;color:var(--navy);">On-Time Delivery</strong><p style="font-size:0.83rem;color:var(--text-muted);margin-top:4px;">We respect your timeline. 95% of our projects finish on schedule.</p></div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;padding:16px;border:1px solid rgba(196,162,79,0.18);border-radius:2px;">
+            <div style="color:var(--gold);font-size:1.2rem;font-weight:700;min-width:24px;">✦</div>
+            <div><strong style="font-size:0.88rem;color:var(--navy);">Transparent Pricing</strong><p style="font-size:0.83rem;color:var(--text-muted);margin-top:4px;">No hidden costs. Detailed quotes so you always know where you stand.</p></div>
+          </div>
+        </div>
+        <button class="btn-primary" style="margin-top:36px;" onclick="showPage('about')">Our Story</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section style="background:var(--gold);padding:80px;">
+    <div style="text-align:center;">
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:700;color:var(--navy);margin-bottom:16px;">Ready to Transform Your Space?</h2>
+      <p style="font-size:0.95rem;color:rgba(13,27,42,0.7);margin-bottom:36px;">Book a free consultation with our design experts today.</p>
+      <button class="btn-primary" style="background:var(--navy);color:var(--gold);" onclick="showPage('contact')">Book Free Consultation</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <div id="footer-home"></div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE 2: SERVICES
+════════════════════════════════════════════ -->
+<div class="page" id="page-services">
+  <section class="services-full">
+    <div class="section-tag">Our Expertise</div>
+    <h2 class="section-title">Complete Design Services,<br>Tailored to You</h2>
+    <p class="section-desc">From the first sketch to the final reveal, we handle every aspect of your interior transformation with precision and care.</p>
+    <div class="services-full-grid">
+      <div class="service-full-card">
+        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=700&q=80" alt="Residential">
+        <div class="service-full-body">
+          <h3>Residential Design</h3>
+          <p>Full-home interior design for apartments, villas, and bungalows. We design every room — living, dining, bedroom, kitchen, bathrooms — as a cohesive, beautiful whole.</p>
+          <div class="service-tag-list">
+            <span class="service-tag">Living Rooms</span>
+            <span class="service-tag">Bedrooms</span>
+            <span class="service-tag">Kitchens</span>
+            <span class="service-tag">Bathrooms</span>
+          </div>
+        </div>
+      </div>
+      <div class="service-full-card">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80" alt="Commercial">
+        <div class="service-full-body">
+          <h3>Commercial Spaces</h3>
+          <p>Offices, showrooms, retail stores, restaurants, and hotels. We design commercial interiors that align with your brand identity and create memorable experiences.</p>
+          <div class="service-tag-list">
+            <span class="service-tag">Offices</span>
+            <span class="service-tag">Retail</span>
+            <span class="service-tag">Restaurants</span>
+            <span class="service-tag">Hotels</span>
+          </div>
+        </div>
+      </div>
+      <div class="service-full-card">
+        <img src="https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=700&q=80" alt="Modular">
+        <div class="service-full-body">
+          <h3>Modular Furniture</h3>
+          <p>Custom modular kitchens, wardrobes, TV units, and storage solutions. Designed for maximum functionality and crafted in premium materials to last a lifetime.</p>
+          <div class="service-tag-list">
+            <span class="service-tag">Kitchens</span>
+            <span class="service-tag">Wardrobes</span>
+            <span class="service-tag">TV Units</span>
+          </div>
+        </div>
+      </div>
+      <div class="service-full-card">
+        <img src="https://images.unsplash.com/photo-1545041060-f7d7b2b0c6f0?w=700&q=80" alt="Renovation">
+        <div class="service-full-body">
+          <h3>Renovation & Remodelling</h3>
+          <p>Breathing new life into existing spaces. Whether a single room refresh or full-scale renovation, we handle structural and aesthetic changes with minimal disruption.</p>
+          <div class="service-tag-list">
+            <span class="service-tag">Full Renovation</span>
+            <span class="service-tag">Room Refresh</span>
+            <span class="service-tag">Structural</span>
+          </div>
+        </div>
+      </div>
+      <div class="service-full-card">
+        <img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=700&q=80" alt="3D Visualization">
+        <div class="service-full-body">
+          <h3>3D Visualization</h3>
+          <p>Photorealistic 3D walkthroughs and renders of your space before construction begins, so you can see, feel, and approve every detail with full confidence.</p>
+          <div class="service-tag-list">
+            <span class="service-tag">3D Renders</span>
+            <span class="service-tag">Walkthroughs</span>
+            <span class="service-tag">VR Tours</span>
+          </div>
+        </div>
+      </div>
+      <div class="service-full-card">
+        <img src="https://images.unsplash.com/photo-1600210491369-e753d80a41f3?w=700&q=80" alt="Turnkey">
+        <div class="service-full-body">
+          <h3>Turnkey Projects</h3>
+          <p>Complete project management from day one to handover. We coordinate vendors, materials, contractors, and timelines so you can focus on what matters — your life.</p>
+          <div class="service-tag-list">
+            <span class="service-tag">End-to-End</span>
+            <span class="service-tag">Project Mgmt</span>
+            <span class="service-tag">Handover</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="process-section">
+    <div class="section-tag">How We Work</div>
+    <h2 class="section-title light">Our Design Process</h2>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num">01</div>
+        <h4>Consultation</h4>
+        <p>We meet with you to understand your vision, requirements, lifestyle, and budget. Free initial consultation at our studio or your site.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">02</div>
+        <h4>Concept Design</h4>
+        <p>Our designers present mood boards, floor plans, material palettes, and 3D visualizations based on your brief.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">03</div>
+        <h4>Execution</h4>
+        <p>Once approved, our skilled team begins construction, fabrication, and installation with full project management oversight.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">04</div>
+        <h4>Handover</h4>
+        <p>We style and stage your space, conduct a final walkthrough, and hand over a beautifully completed project — on time, every time.</p>
+      </div>
+    </div>
+  </div>
+
+  <section style="text-align:center;padding:100px 80px;">
+    <h2 class="section-title" style="margin:0 auto 16px;max-width:600px;">Ready to Begin Your Design Journey?</h2>
+    <p style="font-size:0.92rem;color:var(--text-muted);margin-bottom:36px;">Contact us today for a free, no-obligation consultation.</p>
+    <button class="btn-primary" onclick="showPage('contact')">Get In Touch</button>
+  </section>
+
+  <div id="footer-services"></div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE 3: ABOUT
+════════════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <section class="about-hero">
+    <div class="about-grid">
+      <div class="about-img-wrap">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=80" alt="Artica Design Studio">
+        <div class="about-img-badge">
+          <span>12+</span>
+          <small>Years of Design Excellence</small>
+        </div>
+      </div>
+      <div class="about-content" style="padding-left:20px;">
+        <div class="section-tag">Our Story</div>
+        <h2 class="section-title">Designing Mumbai's Most<br><em style="font-style:italic;color:var(--gold);">Beautiful Spaces</em></h2>
+        <p>Founded in 2012, Artica Designs was born from a simple belief: that thoughtful design has the power to transform lives. What started as a small studio in Ghatkopar has grown into one of Mumbai's most trusted interior design firms.</p>
+        <p>Today, we are a team of over 40 passionate designers, architects, and project managers who bring together creativity, craftsmanship, and cutting-edge technology to create spaces that truly resonate.</p>
+        <p>From luxury residential interiors in South Mumbai to modern commercial fit-outs in BKC, our portfolio spans the breadth of what great design can achieve. Every project is a reflection of the client's unique story, told through carefully curated spaces.</p>
+        <div class="about-values">
+          <div class="value-item">
+            <h4>Our Vision</h4>
+            <p>To be Mumbai's most respected design studio, known for transforming spaces into extraordinary experiences.</p>
+          </div>
+          <div class="value-item">
+            <h4>Our Mission</h4>
+            <p>To deliver design excellence that exceeds expectations, on time and within budget, every single time.</p>
+          </div>
+          <div class="value-item">
+            <h4>Innovation</h4>
+            <p>We stay ahead of global design trends and embrace technology like 3D visualization and VR to serve you better.</p>
+          </div>
+          <div class="value-item">
+            <h4>Sustainability</h4>
+            <p>We prioritize eco-friendly materials and sustainable practices in all our projects.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="team-section">
+    <div class="section-tag">The Team</div>
+    <h2 class="section-title">Meet Our Creative Minds</h2>
+    <div class="team-grid">
+      <div class="team-card">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80" alt="Lead Designer">
+        <div class="team-body">
+          <h4>Priya Sharma</h4>
+          <span>Founder & Lead Designer</span>
+          <p>15+ years of design experience across residential and luxury hospitality projects. Graduate of NIFT Mumbai.</p>
+        </div>
+      </div>
+      <div class="team-card">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="Design Director">
+        <div class="team-body">
+          <h4>Rahul Mehta</h4>
+          <span>Design Director</span>
+          <p>Specializes in commercial interior architecture with a portfolio including 50+ office and retail fit-outs.</p>
+        </div>
+      </div>
+      <div class="team-card">
+        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80" alt="3D Visualization Lead">
+        <div class="team-body">
+          <h4>Ananya Desai</h4>
+          <span>3D Visualization Lead</span>
+          <p>Creates stunningly realistic visualizations that help clients see their dream space before a single wall is built.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section style="background:var(--navy);padding:100px 80px;text-align:center;">
+    <div class="section-tag" style="justify-content:center;">Join Our Journey</div>
+    <h2 class="section-title light" style="max-width:550px;margin:0 auto 20px;">Let's Create Something<br>Extraordinary Together</h2>
+    <p style="font-size:0.92rem;color:rgba(245,240,232,0.65);margin-bottom:36px;">Ready to bring your vision to life? We'd love to hear from you.</p>
+    <button class="btn-primary" onclick="showPage('contact')">Start Your Project</button>
+  </section>
+
+  <div id="footer-about"></div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE 4: CATALOGUE
+════════════════════════════════════════════ -->
+<div class="page" id="page-catalogue">
+  <section class="catalogue-pg">
+    <div class="section-tag">Design Catalogue</div>
+    <h2 class="section-title">Explore Our Design Collections</h2>
+    <p class="section-desc">Browse through our curated catalogue of design styles, materials, and finished projects to find what speaks to you.</p>
+
+    <div class="cat-filters">
+      <button class="cat-filter active" onclick="filterCat(this,'all')">All</button>
+      <button class="cat-filter" onclick="filterCat(this,'living')">Living Room</button>
+      <button class="cat-filter" onclick="filterCat(this,'bedroom')">Bedroom</button>
+      <button class="cat-filter" onclick="filterCat(this,'kitchen')">Kitchen</button>
+      <button class="cat-filter" onclick="filterCat(this,'office')">Office</button>
+      <button class="cat-filter" onclick="filterCat(this,'bathroom')">Bathroom</button>
+    </div>
+
+    <div class="cat-grid" id="catGrid">
+      <div class="cat-item" data-cat="living">
+        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&q=80" alt="Modern Living">
+        <div class="cat-body">
+          <span>Living Room</span>
+          <h4>Contemporary Luxe</h4>
+          <p>Clean lines, plush textures, and a neutral palette with bold statement pieces.</p>
+        </div>
+      </div>
+      <div class="cat-item" data-cat="bedroom">
+        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80" alt="Serene Bedroom">
+        <div class="cat-body">
+          <span>Bedroom</span>
+          <h4>Serenity Suite</h4>
+          <p>Minimalist zen bedroom with soft lighting, natural materials, and calming tones.</p>
+        </div>
+      </div>
+      <div class="cat-item" data-cat="kitchen">
+        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80" alt="Modern Kitchen">
+        <div class="cat-body">
+          <span>Kitchen</span>
+          <h4>Chef's Paradise</h4>
+          <p>Handle-less cabinetry, quartz countertops, and integrated smart appliances.</p>
+        </div>
+      </div>
+      <div class="cat-item" data-cat="office">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" alt="Office Design">
+        <div class="cat-body">
+          <span>Office</span>
+          <h4>Executive Suite</h4>
+          <p>Inspiring workspace combining functionality with a refined corporate aesthetic.</p>
+        </div>
+      </div>
+      <div class="cat-item" data-cat="bathroom">
+        <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80" alt="Luxury Bathroom">
+        <div class="cat-body">
+          <span>Bathroom</span>
+          <h4>Spa Retreat</h4>
+          <p>Freestanding tub, marble surfaces, and warm lighting for a true spa experience.</p>
+        </div>
+      </div>
+      <div class="cat-item" data-cat="living">
+        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80" alt="Classic Living">
+        <div class="cat-body">
+          <span>Living Room</span>
+          <h4>Classic Elegance</h4>
+          <p>Timeless design with rich fabrics, wooden accents, and curated art pieces.</p>
+        </div>
+      </div>
+      <div class="cat-item" data-cat="bedroom">
+        <img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=600&q=80" alt="Modern Bedroom">
+        <div class="cat-body">
+          <span>Bedroom</span>
+          <h4>Urban Retreat</h4>
+          <p>Bold textures and sophisticated palette for the modern city dweller.</p>
+        </div>
+      </div>
+      <div class="cat-item" data-cat="kitchen">
+        <img src="https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=600&q=80" alt="Rustic Kitchen">
+        <div class="cat-body">
+          <span>Kitchen</span>
+          <h4>Warm Contemporary</h4>
+          <p>Wood-tone cabinetry with stone surfaces for a warm, welcoming kitchen.</p>
+        </div>
+      </div>
+      <div class="cat-item" data-cat="office">
+        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&q=80" alt="Creative Office">
+        <div class="cat-body">
+          <span>Office</span>
+          <h4>Creative Hub</h4>
+          <p>Open-plan collaborative workspace with biophilic design elements.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:var(--navy);padding:80px;text-align:center;">
+    <h2 class="section-title light" style="margin:0 auto 16px;max-width:500px;">Love Something You See?</h2>
+    <p style="color:rgba(245,240,232,0.6);margin-bottom:32px;">Get in touch and we'll adapt any design to your space and budget.</p>
+    <button class="btn-primary" onclick="showPage('contact')">Enquire Now</button>
+  </section>
+
+  <div id="footer-catalogue"></div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE 5: GALLERY
+════════════════════════════════════════════ -->
+<div class="page" id="page-gallery">
+  <section class="gallery-pg">
+    <div class="section-tag">Portfolio</div>
+    <h2 class="section-title">Our Work Speaks<br>For Itself</h2>
+    <p class="section-desc">A curated showcase of our finest interior transformations across Mumbai.</p>
+    <div class="gallery-masonry">
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&q=80" alt="Interior 1">
+        <div class="gallery-item-overlay"><svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&q=80" alt="Interior 2">
+        <div class="gallery-item-overlay"><svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" alt="Interior 3">
+        <div class="gallery-item-overlay"><svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80" alt="Interior 4">
+        <div class="gallery-item-overlay"><svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80" alt="Interior 5">
+        <div class="gallery-item-overlay"><svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80" alt="Interior 6">
+        <div class="gallery-item-overlay"><svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80" alt="Interior 7">
+        <div class="gallery-item-overlay"><svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80" alt="Interior 8">
+        <div class="gallery-item-overlay"><svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=600&q=80" alt="Interior 9">
+        <div class="gallery-item-overlay"><svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=600&q=80" alt="Interior 10">
+        <div class="gallery-item-overlay"><svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1600210491369-e753d80a41f3?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1600210491369-e753d80a41f3?w=600&q=80" alt="Interior 11">
+        <div class="gallery-item-overlay"><svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&q=80" alt="Interior 12">
+        <div class="gallery-item-overlay"><svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:60px;">
+      <button class="btn-primary" onclick="showPage('contact')">Start Your Project</button>
+    </div>
+  </section>
+  <div id="footer-gallery"></div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE 6: CONTACT
+════════════════════════════════════════════ -->
+<div class="page" id="page-contact">
+  <section class="contact-pg">
+    <div class="section-tag">Get In Touch</div>
+    <h2 class="section-title">Let's Bring Your Vision<br>to Life</h2>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p>Whether you're planning a full home renovation or simply want to refresh a single room, we'd love to hear from you. Our team is ready to help.</p>
+        <div class="info-items">
+          <div class="info-item">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="info-text">
+              <strong>Address</strong>
+              <span>PRESIDENTIAL TOWERS, A302,<br>Opposite R-City Mall, Ghatkopar West,<br>Mumbai, Maharashtra 400086</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.37a16 16 0 006.72 6.72l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <div class="info-text">
+              <strong>Phone / WhatsApp</strong>
+              <span>+91 88064 28881</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="info-text">
+              <strong>Email</strong>
+              <span>hello@articadesigns.in</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="info-text">
+              <strong>Studio Hours</strong>
+              <div class="hours-grid">
+                <span>Monday – Sunday</span>
+                <span>9:00 AM – 7:00 PM</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap">
+        <h3>Send Us a Message</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" id="cf-fname" placeholder="Rahul">
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" id="cf-lname" placeholder="Mehta">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="cf-phone" placeholder="+91 98765 43210">
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="cf-email" placeholder="rahul@email.com">
+        </div>
+        <div class="form-group">
+          <label>Service Interested In</label>
+          <select id="cf-service">
+            <option value="">Select a service</option>
+            <option>Residential Design</option>
+            <option>Commercial Space</option>
+            <option>Modular Kitchen / Wardrobe</option>
+            <option>Renovation & Remodelling</option>
+            <option>3D Visualization</option>
+            <option>Turnkey Project</option>
+            <option>Just Consultation</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Your Message</label>
+          <textarea id="cf-message" placeholder="Tell us about your project — space size, location, timeline, budget, etc."></textarea>
+        </div>
+        <button class="form-submit" onclick="submitToWhatsApp()">Send via WhatsApp →</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="map-section">
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--navy);margin-bottom:20px;">Find Our Studio</h3>
+    <div class="map-wrap">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.1!2d72.9081!3d19.0859!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c62b01780001%3A0x1!2sPresidential+Towers+Ghatkopar+West+Mumbai!5e0!3m2!1sen!2sin!4v1" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+
+  <div id="footer-contact"></div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE 7: TESTIMONIALS
+════════════════════════════════════════════ -->
+<div class="page" id="page-testimonials">
+  <section class="testimonials-pg">
+    <div class="section-tag">Client Love</div>
+    <h2 class="section-title">What Our Clients<br>Are Saying</h2>
+    <p class="section-desc">Over 250 happy families and businesses trust Artica Designs. Here's what they have to say.</p>
+  </section>
+
+  <div class="testimonials-bg">
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-quote">"</div>
+        <div class="stars">★★★★★</div>
+        <p>Artica Designs completely transformed our 3BHK apartment in Bandra. The attention to detail was incredible — from the custom modular kitchen to the bespoke wardrobe designs. Worth every rupee!</p>
+        <div class="testi-author">
+          <div class="testi-avatar">S</div>
+          <div><div class="testi-name">Sunita Kapoor</div><div class="testi-loc">Bandra West, Mumbai</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"</div>
+        <div class="stars">★★★★★</div>
+        <p>Professional, creative, and on time — exactly what you want from an interior design firm. The 3D renders before the actual work began made me so confident in the final result.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">A</div>
+          <div><div class="testi-name">Arjun Malhotra</div><div class="testi-loc">Powai, Mumbai</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"</div>
+        <div class="stars">★★★★★</div>
+        <p>We hired Artica for our office redesign in BKC and couldn't be happier. The team understood our brand aesthetic perfectly and delivered a stunning, functional workspace our employees love.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">R</div>
+          <div><div class="testi-name">Riya Shah</div><div class="testi-loc">BKC, Mumbai</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"</div>
+        <div class="stars">★★★★★</div>
+        <p>The modular kitchen they designed for us is absolutely stunning. Smart storage, beautiful finishes, and delivered on the promised date. Highly recommend their turnkey service!</p>
+        <div class="testi-author">
+          <div class="testi-avatar">P</div>
+          <div><div class="testi-name">Pradeep Nair</div><div class="testi-loc">Mulund, Mumbai</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"</div>
+        <div class="stars">★★★★★</div>
+        <p>Artica handled our villa renovation from scratch. Every room is perfect. The team communicated throughout the project and there were zero surprise costs. Absolutely brilliant work!</p>
+        <div class="testi-author">
+          <div class="testi-avatar">M</div>
+          <div><div class="testi-name">Meenakshi Joshi</div><div class="testi-loc">Juhu, Mumbai</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"</div>
+        <div class="stars">★★★★★</div>
+        <p>From the initial consultation to the final handover, the Artica team was a pleasure to work with. Our restaurant now looks exactly how we imagined it — warm, sophisticated, and unforgettable.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">K</div>
+          <div><div class="testi-name">Karan Mehra</div><div class="testi-loc">Andheri West, Mumbai</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section style="padding:100px 80px;text-align:center;">
+    <h2 class="section-title" style="max-width:500px;margin:0 auto 16px;">Join Our Happy Clients</h2>
+    <p style="color:var(--text-muted);margin-bottom:36px;">Book your free consultation today and let's create something beautiful.</p>
+    <button class="btn-primary" onclick="showPage('contact')">Get Started</button>
+  </section>
+  <div id="footer-testimonials"></div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE 8: FAQ
+════════════════════════════════════════════ -->
+<div class="page" id="page-faq">
+  <section class="faq-pg">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div class="section-tag" style="justify-content:center;">Got Questions?</div>
+      <h2 class="section-title" style="max-width:600px;margin:0 auto 16px;">Frequently Asked Questions</h2>
+      <p class="section-desc" style="margin:0 auto;text-align:center;">Everything you need to know about working with Artica Designs.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">How long does a typical interior design project take? <span>+</span></div>
+        <div class="faq-a"><p>Project timelines vary depending on scope. A single room can take 4–6 weeks, a full apartment 3–5 months, and a large villa or commercial project 6–12 months. We always provide a detailed timeline upfront so you know exactly what to expect.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">What is your pricing and how do you charge? <span>+</span></div>
+        <div class="faq-a"><p>Our pricing is transparent and project-based. We provide a detailed quote after the initial consultation. Fees typically cover design, 3D visualization, project management, and execution. We work across a range of budgets and always aim to deliver maximum value.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">Do you provide a free consultation? <span>+</span></div>
+        <div class="faq-a"><p>Yes! We offer a free initial consultation — either at our Ghatkopar West studio or at your site. This helps us understand your requirements and give you an accurate sense of scope and cost before any commitment.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">Can I see a 3D preview of my space before work begins? <span>+</span></div>
+        <div class="faq-a"><p>Absolutely. 3D visualization is a core part of our design process. We create photorealistic renders and walkthroughs of every space before a single wall is touched, so you can fully approve the design with confidence.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">Do you handle both residential and commercial projects? <span>+</span></div>
+        <div class="faq-a"><p>Yes, we have dedicated teams for both residential and commercial design. Our commercial portfolio includes offices, retail spaces, restaurants, showrooms, and hospitality venues across Mumbai and beyond.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">What areas do you serve? <span>+</span></div>
+        <div class="faq-a"><p>Our primary service area is Greater Mumbai, including South Mumbai, Bandra, Andheri, Powai, Thane, Navi Mumbai, and of course Ghatkopar where our studio is located. We also take on select projects across Maharashtra.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">What happens if I change my mind mid-project? <span>+</span></div>
+        <div class="faq-a"><p>Design is iterative and we understand that ideas evolve. Minor changes are accommodated smoothly. For significant scope changes, we'll discuss implications on timeline and cost transparently before proceeding.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(this)">Do you offer a warranty on your work? <span>+</span></div>
+        <div class="faq-a"><p>Yes, we stand behind our work. All civil work and installations come with a 1-year warranty. Modular furniture, electrical, and plumbing work come with manufacturer warranties in addition to our service guarantee.</p></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:70px;padding-bottom:40px;">
+      <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:24px;">Still have questions? We're happy to help.</p>
+      <button class="btn-primary" onclick="showPage('contact')">Contact Us</button>
+    </div>
+  </section>
+  <div id="footer-faq"></div>
+</div>
+
+<!-- ─── LIGHTBOX ─── -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close">×</button>
+  <img src="" id="lightboxImg" alt="Gallery">
+</div>
+
+<!-- ─── FOOTER TEMPLATE ─── -->
+<template id="footer-tpl">
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">Artica<span>.</span></div>
+      <p>Mumbai's premier interior design studio crafting extraordinary spaces since 2012. Residential, commercial, and everything in between.</p>
+      <div class="social-links">
+        <a class="social-link" href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a class="social-link" href="#" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <a class="social-link" href="https://wa.me/918806428881" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+        <a class="social-link" href="#" aria-label="Pinterest">
+          <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Quick Links</h5>
+      <ul>
+        <li><a onclick="showPage('home')">Home</a></li>
+        <li><a onclick="showPage('services')">Services</a></li>
+        <li><a onclick="showPage('about')">About Us</a></li>
+        <li><a onclick="showPage('catalogue')">Catalogue</a></li>
+        <li><a onclick="showPage('gallery')">Gallery</a></li>
+        <li><a onclick="showPage('testimonials')">Testimonials</a></li>
+        <li><a onclick="showPage('faq')">FAQ</a></li>
+        <li><a onclick="showPage('contact')">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a onclick="showPage('services')">Residential Design</a></li>
+        <li><a onclick="showPage('services')">Commercial Spaces</a></li>
+        <li><a onclick="showPage('services')">Modular Furniture</a></li>
+        <li><a onclick="showPage('services')">3D Visualization</a></li>
+        <li><a onclick="showPage('services')">Renovation</a></li>
+        <li><a onclick="showPage('services')">Turnkey Projects</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <div class="footer-contact-item">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>PRESIDENTIAL TOWERS, A302, Opposite R-City Mall, Ghatkopar West, Mumbai 400086</span>
+      </div>
+      <div class="footer-contact-item">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.37a16 16 0 006.72 6.72l1.31-1.31a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        <span>+91 88064 28881</span>
+      </div>
+      <div class="footer-contact-item">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Mon–Sun: 9:00 AM – 7:00 PM</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 Artica Designs. All rights reserved.</p>
+    <p>Designed with ♥ in <a href="#">Mumbai</a></p>
+  </div>
+</footer>
+</template>
+
+<script>
+  // ─── Inject footers ───
+  const footerTpl = document.getElementById('footer-tpl').innerHTML;
+  ['home','services','about','catalogue','gallery','contact','testimonials','faq'].forEach(id => {
+    const el = document.getElementById('footer-' + id);
+    if (el) el.innerHTML = footerTpl;
+  });
+
+  // ─── Page navigation ───
+  function showPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    const navEl = document.getElementById('nav-' + page);
+    if (navEl) navEl.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // close mobile menu
+    document.getElementById('navLinks').classList.remove('open');
+  }
+
+  // ─── Hamburger ───
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+
+  // ─── Catalogue filter ───
+  function filterCat(btn, cat) {
+    document.querySelectorAll('.cat-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.cat-item').forEach(item => {
+      item.style.display = (cat === 'all' || item.dataset.cat === cat) ? 'block' : 'none';
+    });
+  }
+
+  // ─── FAQ accordion ───
+  function toggleFAQ(el) {
+    const item = el.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  }
+
+  // ─── Lightbox ───
+  function openLightbox(src) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // ─── Contact → WhatsApp ───
+  function submitToWhatsApp() {
+    const fname = document.getElementById('cf-fname').value.trim();
+    const lname = document.getElementById('cf-lname').value.trim();
+    const phone = document.getElementById('cf-phone').value.trim();
+    const email = document.getElementById('cf-email').value.trim();
+    const service = document.getElementById('cf-service').value;
+    const message = document.getElementById('cf-message').value.trim();
+
+    if (!fname || !phone) {
+      alert('Please fill in at least your name and phone number.');
+      return;
+    }
+
+    const wa_msg = encodeURIComponent(
+      `Hello Artica Designs! 👋\n\n` +
+      `*Name:* ${fname} ${lname}\n` +
+      `*Phone:* ${phone}\n` +
+      `*Email:* ${email || 'Not provided'}\n` +
+      `*Service:* ${service || 'Not specified'}\n` +
+      `*Message:* ${message || 'No additional message'}\n\n` +
+      `I'd like to discuss my project with your team.`
+    );
+
+    window.open(`https://wa.me/918806428881?text=${wa_msg}`, '_blank');
+  }
+
+  // ─── Scroll effects ───
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    nav.style.background = window.scrollY > 30
+      ? 'rgba(13,27,42,0.99)'
+      : 'rgba(13,27,42,0.97)';
+  });
+</script>
+</body>
+</html>
